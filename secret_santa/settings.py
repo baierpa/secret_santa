@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'create_group.apps.CreateGroupConfig',
     'twilio_app.apps.TwilioAppConfig',
     'pairings.apps.PairingsConfig',
+    'members.apps.MembersConfig'
 ]
 
 MIDDLEWARE = [
@@ -129,3 +130,5 @@ STATIC_URL = '/main/static/'
 LOGIN_REDIRECT_URL = 'home'
 
 LOGOUT_REDIRECT_URL = 'home'
+
+AUTH_USER_MODEL = 'members.Members'
