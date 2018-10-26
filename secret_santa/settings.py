@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'accounts.apps.AccountsConfig',
     'main.apps.MainConfig',
-    'twilio_app.apps.TwilioAppConfig'
+    'twilio_app.apps.TwilioAppConfig',
     'pairings.apps.PairingsConfig'
 ]
 
