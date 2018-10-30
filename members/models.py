@@ -9,4 +9,4 @@ class Members(AbstractUser):
     phone = models.CharField(max_length=10, blank=True, null=True)
 
     def __str__(self):
-        return self.pk
+        return self.username

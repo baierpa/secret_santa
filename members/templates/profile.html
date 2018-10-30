@@ -5,6 +5,11 @@
 {% if user.is_authenticated %}
   <p>Here is your profile info {{user.username}}!</p>
 
+  <p>username: {{result.username}}</p>
+  <p>first name: {{result.first_name}}</p>
+  <p>last name: {{result.last_name}}</p>
+  <p>email: {{result.email}}</p>
+
 {% else %}
   <p>please sign in or sign up!!</p>
   <p>
