@@ -10,3 +10,6 @@ class MembersView(generic.CreateView):
 
 def profile(request):
   return render(request, 'profile.html')
+
+def partners(request):
+  return render(request, 'partners.html')

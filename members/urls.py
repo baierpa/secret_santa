@@ -7,5 +7,6 @@ app_name = 'members'
 urlpatterns = [
     path('', include('django.contrib.auth.urls')),
     path('signup/', MembersView.as_view(), name='signup'),
-    path('profile/', views.profile, name='profile')
+    path('profile/', views.profile, name='profile'),
+    path('partners/', views.partners, name='partners')
 ]
