@@ -126,7 +126,7 @@ USE_TZ = True
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 STATIC_URL = '/main/static/'
 
-LOGIN_REDIRECT_URL = 'home'
+LOGIN_REDIRECT_URL = '/groups/dashboard'
 
 LOGOUT_REDIRECT_URL = 'home'
 
