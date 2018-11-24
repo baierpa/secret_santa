@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.shortcuts import redirect
 from .models import myGroups
 from .forms import newGroupForm
-from members.models import Members,User_By_Group
+from members.models import Members,User_By_Group, Pairings
 from members.forms import newMembersForm
 from django.views.decorators.csrf import csrf_exempt
 import simplejson as json
@@ -127,21 +127,24 @@ def shuffle_pairs(request):
                 myUser.exclusions = user['Exclusions']
                 myUser.save()
                 print(myUser.id)
-
-        exclusions = list(myUser)
+#algorithm for generating random pairs with exclusions
+        targets = list(myUser)
         # run this until it generates a valid result
         valid = False
         while not valid:
             # randomize the targets
-            random.shuffle(exclusions)
+            random.shuffle(targets)
             # validate them
             round_valid = True
-            for giver, exclusion in zip(myUser, exclusions):
-                round_valid = round_valid and giver != exclusion and giver.exclusions != exclusion
+            for giver, target in zip(myUser, targets):
+                round_valid = round_valid and giver != target and giver.target != target and giver.exclusions != target
             valid = round_valid
 
         # apply the validated targets
-        for giver, exclusion in zip(myUser, exclusions):
-            giver.exclusions = exclusion
+        for giver, target in zip(myUser, targets):
+            giver.target = target
+            receiver = Members.objects.filter(name = giver.target)
+            Pairings(myGroup, giver, receiver).save()
+
 
 
