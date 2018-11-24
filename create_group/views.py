@@ -6,7 +6,7 @@ from members.models import Members,User_By_Group
 from members.forms import newMembersForm
 from django.views.decorators.csrf import csrf_exempt
 import simplejson as json
-
+import random
 
 
 def index(request):
@@ -86,3 +86,62 @@ def edit_group(request):
            'form1': form1,
         }
         return render(request,'edit_group.html',context)
+
+
+def shuffle_pairs(request):
+    if not request.user.is_authenticated:
+        return redirect('members:signup')
+
+    if request.is_ajax():
+
+        if request.POST['grpInfo'] and request.POST['arr']:
+            temp = request.POST['grpInfo']
+            groupData = json.loads(temp)
+            myGroup = myGroups()
+
+            myGroup.group_name= groupData['groupName']
+            myGroup.end_date = groupData['endDate']
+            myGroup.ship_date = groupData['shipDate']
+            myGroup.created_by = groupData['createdBy']
+            myGroup.save()
+            print(myGroup.id)
+            #return show_groups(request)
+
+            array_data = request.POST['arr']
+            data = json.loads(array_data)
+            print(data)
+            print(data[0])
+            count = len(data)
+            print(len(data))
+            for user in data:
+                myUser = Members()
+                myUser.first_name = user['firstName']
+                myUser.last_name = user['lastName']
+                myUser.username = user['Username']
+                myUser.email = user['Useremail']
+                myUser.phone = user['Userphone']
+                myUser.address = user['Useraddress']
+                myUser.city = user['Usercity']
+                myUser.state = user['Userstate']
+                myUser.zip_code = user['Userzip']
+                myUser.exclusions = user['Exclusions']
+                myUser.save()
+                print(myUser.id)
+
+        exclusions = list(myUser)
+        # run this until it generates a valid result
+        valid = False
+        while not valid:
+            # randomize the targets
+            random.shuffle(exclusions)
+            # validate them
+            round_valid = True
+            for giver, exclusion in zip(myUser, exclusions):
+                round_valid = round_valid and giver != exclusion and giver.exclusions != exclusion
+            valid = round_valid
+
+        # apply the validated targets
+        for giver, exclusion in zip(myUser, exclusions):
+            giver.exclusions = exclusion
+
+
